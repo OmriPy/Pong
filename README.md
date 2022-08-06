@@ -26,7 +26,7 @@ or
 tlink pong
 ```
 ## Debugging
-if you want to dubug the code you can enter td by typing:
+if you want to dubug the code you can enter the turbo dubgger by typing:
 ```
 td Pong
 ```
