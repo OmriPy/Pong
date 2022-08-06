@@ -1,4 +1,4 @@
-;Omri Lustig
+; Omri
 IDEAL
 MODEL small
 STACK 100h
