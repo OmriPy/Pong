@@ -1,4 +1,4 @@
-; Omri
+;Omri Lustig
 IDEAL
 MODEL small
 STACK 100h
@@ -24,20 +24,6 @@ DATASEG
 	PaddlesWidth dw 5 ; the width of both paddles
 	PaddlesHeight dw 31 ; the height of both paddles
 	PaddlesVelocity dw 6 ; the velocity of both paddles
-	PaddleRightYCase1 dw 3 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is below 28
-	PaddleRightYCase2 dw 16 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 22 to 41
-	PaddleRightYCase3 dw 29 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 35 to 54
-	PaddleRightYCase4 dw 42 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 48 to 67
-	PaddleRightYCase5 dw 55 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 61 to 80
-	PaddleRightYCase6 dw 68 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 74 to 93
-	PaddleRightYCase7 dw 81 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 87 to 106
-	PaddleRightYCase8 dw 94 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 100 to 119
-	PaddleRightYCase9 dw 107 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 113 to 132
-	PaddleRightYCase10 dw 120 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 126 to 145
-	PaddleRightYCase11 dw 133 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 139 to 158
-	PaddleRightYCase12 dw 148 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 152 to 171
-	PaddleRightYCase13 dw 159 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 165 to 184
-	PaddleRightYCase14 dw 166 ; the Y of the right paddle if it is controlled by the computer and if the Y of the ball is between 172 to 191
 ;	User Interface
 	LeftPaddlePlayerScore db 0 ; current points of the left player
 	RightPaddlePlayerScore db 0 ; current points of the right player
@@ -90,6 +76,9 @@ DATASEG
 	ChosenWidth dw ? ; The width parameter given to the procedures: PrintChosenRectangle & PrintChosenFrame
 	ChosenColor db ? ; The color parameter given to the procedures: PrintChosenRectangle & PrintChosenFrame
 	ChosenThickness dw ? ; The thickness parameter given to the procedure: PrintChosenFrame
+	ChosenTextRow db ? ; The row parameter given to the procedure: PrintChosenText
+	ChosenTextColumn db ? ; The column parameter given to the procedure: PrintChosenText
+	ChosenTextOffset dw ? ; The offset parameter given to the procedure: PrintChosenText
 ; Others
 	TimeAux db 0 ; used when checking if time has passed
 CODESEG
@@ -447,219 +436,17 @@ AIControlsRightPaddle: ; When the right paddle is controlled by the AI
 	jl JumpToMoveRightPaddleDown
 	ret
 InvincibleComputer:
-; Case 1
-	cmp [BallY], 28
-	jl JumpToCase1
-; Case 2
-	mov ax, 22
-	cmp [BallY], ax
-	jl JumpToExitProcedure2
-	mov ax, 41
-	cmp [BallY], ax
-	jl JumpToCase2
-; Case 3
-	mov ax, 35
-	cmp [BallY], ax
-	jl JumpToExitProcedure2
-	mov ax, 54
-	cmp [BallY], ax
-	jl JumpToCase3
-	jmp ContinueToCase4
-JumpToExitProcedure2:
-	jmp ExitProcedure2
-JumpToCase1:
-	jmp Case1
-JumpToCase2:
-	jmp Case2
-JumpToCase3:
-	jmp Case3
-JumpToCase4:
-	jmp Case4
-JumpToCase5:
-	jmp Case5
-JumpToCase6:
-	jmp Case6
-ContinueToCase4:
-	mov ax, 48
-	cmp [BallY], ax
-	jl JumpToExitProcedure2
-	mov ax, 67
-	cmp [BallY], ax
-	jl JumpToCase4
-; Case 5
-	mov ax, 61
-	cmp [BallY], ax
-	jl JumpToExitProcedure2
-	mov ax, 80
-	cmp [BallY], ax
-	jl JumpToCase5
-; Case 6
-	mov ax, 74
-	cmp [BallY], ax
-	jl JumpToExitProcedure2
-	mov ax, 93
-	cmp [BallY], ax
-	jl JumpToCase6
-; Case 7
-	mov ax, 87
-	cmp [BallY], ax
-	jl JumpTo2ExitProcedure2
-	mov ax, 106
-	cmp [BallY], ax
-	jl JumpToCase7
-; Case 8
-	mov ax, 100
-	cmp [BallY], ax
-	jl JumpTo2ExitProcedure2
-	mov ax, 119
-	cmp [BallY], ax
-	jl JumpToCase8
-	jmp ContinueToCase9
-JumpTo2ExitProcedure2:
-	ret
-JumpToCase7:
-	jmp Case7
-JumpToCase8:
-	jmp Case8
-JumpToCase9:
-	jmp Case9
-JumpToCase10:
-	jmp Case10
-ContinueToCase9:
-	mov ax, 113
-	cmp [BallY], ax
-	jl JumpTo2ExitProcedure2
-	mov ax, 132
-	cmp [BallY], ax
-	jl JumpToCase9
-; Case 10
-	mov ax, 126
-	cmp [BallY], ax
-	jl JumpTo2ExitProcedure2
-	mov ax, 145
-	cmp [BallY], ax
-	jl JumpToCase10
-; Case 11
-	mov ax, 139
-	cmp [BallY], ax
-	jl JumpTo3ExitProcedure2
-	mov ax, 158
-	cmp [BallY], ax
-	jl JumpToCase11
-	jmp ContinueToCase12
-JumpToCase11:
-	jmp Case11
-JumpToCase12:
-	jmp Case12
-JumpToCase13:
-	jmp Case13
-JumpToCase14:
-	jmp Case14
-ContinueToCase12:
-	mov ax, 152
-	cmp [BallY], ax
-	jl JumpTo3ExitProcedure2
-	mov ax, 171
-	cmp [BallY], ax
-	jl JumpToCase12
-; Case 13
-	mov ax, 165
-	cmp [BallY], ax
-	jl JumpTo3ExitProcedure2
-	mov ax, 184
-	cmp [BallY], ax
-	jl JumpToCase13
-; Case 14
-	mov ax, 172
-	cmp [BallY], ax
-	jl JumpTo3ExitProcedure2
-	mov ax, 191
-	cmp [BallY], ax
-	jl JumpToCase14
-JumpTo3ExitProcedure2:
-	ret
-Case1:
 	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase1]
+	mov ax, 3
+	mov cx, 14
+	Cases:
+		cmp ax, [BallY]
+		ja Done
+		add ax, 13
+		loop Cases
+	Done:
+	sub ax, 15
 	mov [PaddleRightY], ax
-	ret
-Case2:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase2]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case3:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase3]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case4:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase4]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case5:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase5]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case6:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase6]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case7:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase7]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case8:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase8]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case9:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase9]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case10:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase10]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case11:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase11]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case12:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase12]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case13:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase13]
-	mov [PaddleRightY], ax
-	call DrawPaddles
-	ret
-Case14:
-	call PaintRightPaddleBlack
-	mov ax, [PaddleRightYCase14]
-	mov [PaddleRightY], ax
-	call DrawPaddles
 	ret
 JumpToMoveLeftPaddleUp:
 	jmp MoveLeftPaddleUp
@@ -740,50 +527,30 @@ MessageAskingIfQuit:
 	sub [ChosenWidth], ax
 	call PrintChosenRectangle
 ; Part 1 of the sentence:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 7 ; setting row
-	mov dl, 14 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextMessage1
-	int 21h
+	mov [ChosenTextRow], 7
+	mov [ChosenTextColumn], 14
+	mov [ChosenTextOffset], offset TextMessage1
+	call PrintChosenText
 ; Part 2 of the sentence:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 10 ; setting row
-	mov dl, 9 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextMessage2
-	int 21h
+	mov [ChosenTextRow], 10
+	mov [ChosenTextColumn], 9
+	mov [ChosenTextOffset], offset TextMessage2
+	call PrintChosenText
 ; Part 3 of the sentence:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 12 ; setting row
-	mov dl, 11 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextMessage3
-	int 21h
+	mov [ChosenTextRow], 12
+	mov [ChosenTextColumn], 11
+	mov [ChosenTextOffset], offset TextMessage3
+	call PrintChosenText
 ; Part 4 of the sentence:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 14 ; setting row
-	mov dl, 8 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextMessage4
-	int 21h
+	mov [ChosenTextRow], 14
+	mov [ChosenTextColumn], 8
+	mov [ChosenTextOffset], offset TextMessage4
+	call PrintChosenText
 ; Part 5 of the sentence:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 16 ; setting row
-	mov dl, 4 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextMessage5
-	int 21h
+	mov [ChosenTextRow], 16
+	mov [ChosenTextColumn], 4
+	mov [ChosenTextOffset], offset TextMessage5
+	call PrintChosenText
 InputFromKeyboard1:
 	xor ah, ah
 	int 16h
@@ -814,62 +581,38 @@ proc UI
 	jmp PVP
 PVE:
 ; Printing player
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 1 ; setting row
-	mov dl, 8 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset Player
-	int 21h
+	mov [ChosenTextRow], 1
+	mov [ChosenTextColumn], 8
+	mov [ChosenTextOffset], offset Player
+	call PrintChosenText
 ; Printing computer
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 1 ; setting row
-	mov dl, 25 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset Computer
-	int 21h
+	mov [ChosenTextRow], 1
+	mov [ChosenTextColumn], 25
+	mov [ChosenTextOffset], offset Computer
+	call PrintChosenText
 	jmp TheScores
 PVP:
 ; Printing player 1
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 1 ; setting row
-	mov dl, 7 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset Player1
-	int 21h
+	mov [ChosenTextRow], 1
+	mov [ChosenTextColumn], 7
+	mov [ChosenTextOffset], offset Player1
+	call PrintChosenText
 ; Printing player 2
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 1 ; setting row
-	mov dl, 25 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset Player2
-	int 21h
+	mov [ChosenTextRow], 1
+	mov [ChosenTextColumn], 25
+	mov [ChosenTextOffset], offset Player2
+	call PrintChosenText
 TheScores:
 ; Left player
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 3 ; setting row
-	mov dl, 11 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextLeftPaddlePlayerScore
-	int 21h
+	mov [ChosenTextRow], 3
+	mov [ChosenTextColumn], 11
+	mov [ChosenTextOffset], offset TextLeftPaddlePlayerScore
+	call PrintChosenText
 ; Right player
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 3 ; setting row
-	mov dl, 29 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextRightPaddlePlayerScore
-	int 21h
+	mov [ChosenTextRow], 3
+	mov [ChosenTextColumn], 29
+	mov [ChosenTextOffset], offset TextRightPaddlePlayerScore
+	call PrintChosenText
 	ret
 endp UI
 proc UpdateLeftPaddlePlayerScore
@@ -887,14 +630,10 @@ endp UpdateRightPaddlePlayerScore
 proc PrintGameOverScreen
 	call ClearScreen
 ; Printing title
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 4 ; setting row
-	mov dl, 15 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextGameOverTitle
-	int 21h
+	mov [ChosenTextRow], 4
+	mov [ChosenTextColumn], 15
+	mov [ChosenTextOffset], offset TextGameOverTitle
+	call PrintChosenText
 ; Showing which player won:
 	cmp [IsPVEorPVP], 1
 	je PVECase2
@@ -904,53 +643,33 @@ PVECase2:
 	je PlayerWon
 	jmp ComputerWon
 PlayerWon:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 11 ; setting row
-	mov dl, 13 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextGameOverWinnerPVEPlayer
-	int 21h
+	mov [ChosenTextRow], 11
+	mov [ChosenTextColumn], 13
+	mov [ChosenTextOffset], offset TextGameOverWinnerPVEPlayer
+	call PrintChosenText
 	jmp DisplayingThePlayAgainMessage
 ComputerWon:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 11 ; setting row
-	mov dl, 12 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextGameOverWinnerPVEComputer
-	int 21h
+	mov [ChosenTextRow], 11
+	mov [ChosenTextColumn], 12
+	mov [ChosenTextOffset], offset TextGameOverWinnerPVEComputer
+	call PrintChosenText
 	jmp DisplayingThePlayAgainMessage
 PVPCase2:
 	call UpdateWinnerText
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 11 ; setting row
-	mov dl, 14 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextGameOverWinnerPVP
-	int 21h
+	mov [ChosenTextRow], 11
+	mov [ChosenTextColumn], 14
+	mov [ChosenTextOffset], offset TextGameOverWinnerPVP
+	call PrintChosenText
 DisplayingThePlayAgainMessage:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 14 ; setting row
-	mov dl, 7 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextGameOverPlayAgain
-	int 21h
+	mov [ChosenTextRow], 14
+	mov [ChosenTextColumn], 7
+	mov [ChosenTextOffset], offset TextGameOverPlayAgain
+	call PrintChosenText
 ; Showing the go to main menu message:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 16 ; setting row
-	mov dl, 5 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextGameOverMainMenu
-	int 21h
+	mov [ChosenTextRow], 16
+	mov [ChosenTextColumn], 5
+	mov [ChosenTextOffset], offset TextGameOverMainMenu
+	call PrintChosenText
 ; Waiting for a key to be pressed
 InputFromKeyboard2:
 	xor ah, ah
@@ -981,50 +700,30 @@ proc PrintMainMenu
 	call ClearScreen
 ; Showing the main menu screen texts:
 ; Displaying the title
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 3 ; setting row
-	mov dl, 5 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextMainMenuTitle
-	int 21h
+	mov [ChosenTextRow], 3
+	mov [ChosenTextColumn], 5
+	mov [ChosenTextOffset], offset TextMainMenuTitle
+	call PrintChosenText
 ; Displaying the single player option:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 7 ; setting row
-	mov dl, 2 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextMainMenuSingleplayer
-	int 21h
+	mov [ChosenTextRow], 7
+	mov [ChosenTextColumn], 2
+	mov [ChosenTextOffset], offset TextMainMenuSingleplayer
+	call PrintChosenText
 ; Displaying the multi player option:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 10 ; setting row
-	mov dl, 2 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextMainMenuMultiplayer
-	int 21h
+	mov [ChosenTextRow], 10
+	mov [ChosenTextColumn], 2
+	mov [ChosenTextOffset], offset TextMainMenuMultiplayer
+	call PrintChosenText
 ; Displaying the Tutorial screen option:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 13 ; setting row
-	mov dl, 2 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextMainMenuTutorial
-	int 21h
+	mov [ChosenTextRow], 13
+	mov [ChosenTextColumn], 2
+	mov [ChosenTextOffset], offset TextMainMenuTutorial
+	call PrintChosenText
 ; Displaying the exit game option:
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 20 ; setting row
-	mov dl, 5 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextMainMenuExitProgram
-	int 21h
+	mov [ChosenTextRow], 20
+	mov [ChosenTextColumn], 5
+	mov [ChosenTextOffset], offset TextMainMenuExitProgram
+	call PrintChosenText
 InputFromKeyboard3:
 	xor ah, ah
 	int 16h
@@ -1035,9 +734,9 @@ InputFromKeyboard3:
 	cmp al, 32h ; if the key that was pressed is 2
 	je MultiPLayer ; then start the multi player mode
 ; Tutorial
-	cmp al, 't'  ; if the key that was pressed is s
+	cmp al, 't'  ; if the key that was pressed is t
 	je Tutorial ; then go to tutorial
-	cmp al, 'T'  ; if the key that was pressed is S
+	cmp al, 'T'  ; if the key that was pressed is T
 	je Tutorial ; then go to tutorial
 ; Exit
 	cmp al, 01Bh ; if the key that was pressed is ESC
@@ -1080,50 +779,30 @@ proc DifficultyLevelScreen
 	call ClearScreen
 ; Printing the texts:
 ; Title
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 3 ; setting row
-	mov dl, 5 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset Text1DifficultyLevelScreen
-	int 21h
+	mov [ChosenTextRow], 3
+	mov [ChosenTextColumn], 5
+	mov [ChosenTextOffset], offset Text1DifficultyLevelScreen
+	call PrintChosenText
 ; easy
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 7 ; setting row
-	mov dl, 2 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset Text2DifficultyLevelScreen
-	int 21h
+	mov [ChosenTextRow], 7
+	mov [ChosenTextColumn], 2
+	mov [ChosenTextOffset], offset Text2DifficultyLevelScreen
+	call PrintChosenText
 ; Hard
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 10 ; setting row
-	mov dl, 2 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset Text3DifficultyLevelScreen
-	int 21h
+	mov [ChosenTextRow], 10
+	mov [ChosenTextColumn], 2
+	mov [ChosenTextOffset], offset Text3DifficultyLevelScreen
+	call PrintChosenText
 ; IMPOSSIBLE
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 13 ; setting row
-	mov dl, 2 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset Text4DifficultyLevelScreen
-	int 21h
+	mov [ChosenTextRow], 13
+	mov [ChosenTextColumn], 2
+	mov [ChosenTextOffset], offset Text4DifficultyLevelScreen
+	call PrintChosenText
 ; Back to main menu
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 20 ; setting row
-	mov dl, 5 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextBackToMainMenu
-	int 21h
+	mov [ChosenTextRow], 20
+	mov [ChosenTextColumn], 5
+	mov [ChosenTextOffset], offset TextBackToMainMenu
+	call PrintChosenText
 InputFromKeyboard4:
 	xor ah, ah
 	int 16h
@@ -1168,42 +847,26 @@ proc PrintTutorialMenu
 	call ClearScreen
 ; Printing the texts:
 ; Title
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 3 ; setting row
-	mov dl, 5 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextTutorialMenuTitle
-	int 21h
+	mov [ChosenTextRow], 3
+	mov [ChosenTextColumn], 5
+	mov [ChosenTextOffset], offset TextTutorialMenuTitle
+	call PrintChosenText
 ; Explanations
 ; PVE
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 5 ; setting row
-	mov dl, 5 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextTutorialMenuPVE
-	int 21h
+	mov [ChosenTextRow], 5
+	mov [ChosenTextColumn], 5
+	mov [ChosenTextOffset], offset TextTutorialMenuPVE
+	call PrintChosenText
 ; PVP
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 11 ; setting row
-	mov dl, 5 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextTutorialMenuPVP
-	int 21h
+	mov [ChosenTextRow], 11
+	mov [ChosenTextColumn], 5
+	mov [ChosenTextOffset], offset TextTutorialMenuPVP
+	call PrintChosenText
 ; Back to main menu
-	mov ah, 2 ; setting cursor position
-	xor bh, bh
-	mov dh, 20 ; setting row
-	mov dl, 5 ; setting column
-	int 10h
-	mov ah, 9
-	mov dx, offset TextBackToMainMenu
-	int 21h
+	mov [ChosenTextRow], 20
+	mov [ChosenTextColumn], 5
+	mov [ChosenTextOffset], offset TextBackToMainMenu
+	call PrintChosenText
 InputFromKeyboard5:
 	xor ah, ah
 	int 16h
@@ -1331,6 +994,17 @@ proc FlushBuffer
 	int 21h
 	ret
 endp FlushBuffer
+proc PrintChosenText
+	mov ah, 2
+	xor bh, bh
+	mov dh, [ChosenTextRow]
+	mov dl, [ChosenTextColumn]
+	int 10h
+	mov ah, 9
+	mov dx, [ChosenTextOffset]
+	int 21h
+	ret
+endp PrintChosenText
 start:
 	mov ax, @data
 	mov ds, ax
@@ -1366,6 +1040,11 @@ CheckTime: ; Time checking loop
 	mov [ChosenThickness], 1
 	call PrintChosenFrame
 	call UI
+;	The next four lines are doing 60 FPS.
+	mov ah, 086h
+	xor cx, cx
+	mov dx, 0411Ah
+	int 15h
 	jmp CheckTime ; after everything, checks time again
 GameOverScreen:
 	call PrintGameOverScreen
