@@ -2,7 +2,7 @@
 My version of the known game Pong.
 I used [this tutorial](https://www.youtube.com/watch?v=dyANHsj2UOw&list=PLvpbDCl_H7mfgmEJPl1bTHlH5g-f0kWDM) as a guide to building the game.
 ## DOSBox installation
-Visit [this link](https://www.dosbox.com/download.php?main=1) to install DOSBox on your computer:
+Visit [this link](https://www.dosbox.com/download.php?main=1) to install DOSBox on your computer
 
 ## Compiling
 Type the following lines in DOSBox:
